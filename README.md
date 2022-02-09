@@ -13,13 +13,13 @@ library(ggwordcloud)
 
 ``` r
 # You might run into an authentication issue here
-sta518_evals <- read_sheet("1adSXSTVJuBoITdotASAZw-rhzS002yTsVJLqSNl1jtk",
+sta518_evals <- read_sheet("1VR46X3WlsLgrpGtvDG1OUanpSBQ1NWsEs5dsenko8zk",
                            na = "I have not attempted")
 ```
 
 ``` r
-likert_scale <- c("Strongly disagree", "Moderately disagree", "Slightly disagree",
-                  "Slightly agree", "Moderately agree", "Strongly agree")
+likert_scale <- c("Strongly disagree", "Slightly disagree",
+                  "Slightly agree", "Strongly agree")
 
 likert_pallet <- RColorBrewer::brewer.pal(length(likert_scale), "BrBG")
 
@@ -40,17 +40,6 @@ sta518_evals %>%
 ```
 
 ![](README_files/figure-gfm/course-responses-1.png)<!-- -->
-
-``` r
-sta518_evals %>% 
-  select(course = starts_with("In which s")) %>% 
-  mutate(course = str_remove(course, " \\(.*")) %>% 
-  ggplot(aes(y = course)) +
-  geom_bar(fill = "#0065a4") +
-  theme_bw()
-```
-
-![](README_files/figure-gfm/section-responses-1.png)<!-- -->
 
 ## Course Design
 
@@ -90,8 +79,12 @@ ggplot() +
   scale_x_continuous(limits = c(-100, 100)) +
   scale_fill_identity("", 
                     labels = likert_scale, 
+                    guide = "legend",
                     breaks = likert_pallet) +
-  theme_bw()
+  theme_bw() +
+  theme(legend.position="bottom",
+        legend.box="horizontal",
+        legend.text = element_text(size = 8))
 ```
 
 ![](README_files/figure-gfm/restructure-course-design-1.png)<!-- -->
@@ -131,7 +124,10 @@ ggplot() +
   scale_fill_identity("", labels = likert_scale, 
                       breaks = likert_pallet, guide = "legend",
                       drop = FALSE) +
-  theme_bw()
+  theme_bw() +
+  theme(legend.position="bottom",
+        legend.box="horizontal",
+        legend.text = element_text(size = 8))
 ```
 
 ![](README_files/figure-gfm/instructor-restructor-1.png)<!-- -->
@@ -169,10 +165,10 @@ best_cleaned <- bind_rows(best_sing, best_cleaned)
 ``` r
 best_cleaned %>%
   count(bigram, sort = TRUE) %>%
-  filter(n > 2) %>% 
+  filter(n > 1) %>% 
   ggplot(aes(label = bigram, size = n)) + 
   geom_text_wordcloud() +
-  scale_size_area(max_size = 20) +
+  scale_size_area(max_size = 10) +
   theme_bw()
 ```
 
@@ -209,10 +205,10 @@ change_cleaned <- bind_rows(change_sing, change_cleaned)
 ``` r
 change_cleaned %>%
   count(bigram, sort = TRUE) %>%
-  filter(n > 2) %>% 
+  filter(n > 1) %>% 
   ggplot(aes(label = bigram, size = n)) + 
   geom_text_wordcloud() +
-  scale_size_area(max_size = 20) +
+  scale_size_area(max_size = 10) +
   theme_bw()
 ```
 
@@ -248,10 +244,10 @@ improve_cleaned <- bind_rows(improve_sing, improve_cleaned)
 ``` r
 improve_cleaned %>%
   count(bigram, sort = TRUE) %>%
-  filter(n > 2) %>% 
+  filter(n > 1) %>% 
   ggplot(aes(label = bigram, size = n)) + 
   geom_text_wordcloud() +
-  scale_size_area(max_size = 20) +
+  scale_size_area(max_size = 10) +
   theme_bw()
 ```
 
