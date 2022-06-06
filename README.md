@@ -12,9 +12,12 @@ library(ggwordcloud)
 ```
 
 ``` r
-# You might run into an authentication issue here
-sta518_evals <- read_sheet("1VR46X3WlsLgrpGtvDG1OUanpSBQ1NWsEs5dsenko8zk",
+# You wont be able to run this as you do not have access on my GDrive
+# However, the string here is from the Google Sheet's url - between the "/d/ and "/edit..."
+sta518_evals <- read_sheet("1MkwRbzcshJo1qPzooP2Ww829KzUN2jj4EH2eKPCWRfA",
+# Like the tidyverse "read_*" functions, you can specify missing values.
                            na = "I have not attempted")
+# All questions were required so I am treating students that have not attempted something as missing.
 ```
 
 ``` r
@@ -68,9 +71,11 @@ course_design_disagree <- course_design %>%
 
 # PLOT!!!!
 ggplot() +
+  # Notice that I am plotting two different datasets, the "agree" dataset:
   geom_bar(data = course_design_agree, 
            aes(y = str_wrap(item, width = 40), x = perc, fill = color),
            position = "stack", stat = "identity") +
+  # And the "disagree" dataset:
   geom_bar(data = course_design_disagree,
            aes(y = str_wrap(item, width = 40), x = -perc, fill = color),
            position = "stack", stat = "identity") +
